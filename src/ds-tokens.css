@@ -1,0 +1,70 @@
+/**
+ * Llumen Design System V1 variables (Figma file IEipD1hKFb0H7jCLU53nP2, "Table & Listing" →
+ * "Grid & List Phantom Loading"). Scoped to the playground page; the main app keeps its --lc-* tokens.
+ */
+:root {
+  /* Colors / surface */
+  --ds-surface-level-1: #1f1f1f99;
+  --ds-surface-level-2: #33333399;
+  --ds-surface-level-3: #47474799;
+  --ds-surface-on-shader: #0a182b4d;
+
+  /* Colors / background */
+  --ds-bg-page: #000000;
+  --ds-bg-default: #ffffff1a;
+  --ds-bg-active: #ffffff33;
+  --ds-bg-protected: #1f1f1f99;
+  --ds-bg-brand: #70aeff;
+  --ds-bg-brand-subtle: #5f92d933;
+
+  /* Colors / border */
+  --ds-border-default: #ffffff1a;
+  --ds-border-default-hover: #ffffff12;
+  --ds-border-brand-subtle: #70aeff66;
+  --ds-border-width: 1px;
+
+  /* Colors / foreground */
+  --ds-fg-primary: #ffffff;
+  --ds-fg-secondary: #ffffffb8;
+  --ds-fg-muted: #ffffff7a;
+  --ds-fg-brand: #70aeff;
+  --ds-fg-inverse: #0c0e10;
+
+  /* Radius */
+  --ds-radius-3xs: 4px;
+  --ds-radius-2xs: 6px;
+  --ds-radius-default: 12px;
+  --ds-radius-pill: 9999px;
+  --ds-radius-full: 9999px;
+
+  /* Spacing */
+  --ds-spacing-none: 0;
+  --ds-spacing-sm: 8px;
+  --ds-spacing-md: 10px;
+  --ds-spacing-lg: 12px;
+
+  /* Effects */
+  --ds-blur-3xl: 60px;
+
+  /* Sizes used by inputs, toggle buttons and buttons/outline */
+  --ds-control-height: 36px;
+  --ds-icon-size: 20px;
+
+  /* Typography */
+  --ds-font-text: "Innovator Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ds-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ds-text-display: 600 32px / 40px var(--ds-font-text);
+  --ds-text-heading: 600 20px / 28px var(--ds-font-text);
+  --ds-text-heading-sm: 600 18px / 24px var(--ds-font-text);
+  --ds-text-label: 500 14px / 20px var(--ds-font-text);
+  --ds-text-body: 400 14px / 20px var(--ds-font-text);
+  --ds-text-body-sm: 400 12px / 16px var(--ds-font-text);
+  --ds-text-overline: 500 12px / 16px var(--ds-font-text);
+
+  /* Phantom loading (phantom-shape / phantom-shimmer) */
+  --ds-phantom-fill: var(--ds-surface-level-3);
+  --ds-phantom-shine: rgba(255, 255, 255, 0.07);
+  --ds-phantom-band: 200px;
+  --ds-phantom-speed: 700; /* px per second */
+  --ds-phantom-loop: 2000ms;
+}

@@ -1,0 +1,585 @@
+/* Llumen DS V1 — "Grid & List Phantom Loading" (tokens in ds-tokens.css). */
+
+.pane {
+  --pl-canvas-pad: 16px;
+  --tl-label-w: 64px;
+
+  container: pl-pane / inline-size;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  border-radius: var(--ds-radius-default);
+  background: var(--ds-surface-level-2);
+  overflow: hidden;
+  font-family: var(--ds-font-text);
+}
+
+.paneHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ds-spacing-sm);
+  padding: var(--ds-spacing-md) 16px;
+  border-bottom: var(--ds-border-width) solid var(--ds-border-default);
+  flex-shrink: 0;
+}
+
+.paneTitle {
+  font: var(--ds-text-label);
+  color: var(--ds-fg-primary);
+}
+
+.paneSubtitle {
+  font: var(--ds-text-body-sm);
+  font-family: var(--ds-font-mono);
+  color: var(--ds-fg-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Scrollport stays full-bleed so the overlay thumb sits on the pane edge. */
+.canvasBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overflow-y: overlay;
+  padding: 0;
+}
+
+.grid {
+  display: grid;
+  padding: var(--pl-canvas-pad);
+  column-gap: var(--pl-gap-x);
+  row-gap: var(--pl-gap-y);
+  grid-template-columns: repeat(var(--pl-cols), minmax(0, 1fr));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pl-list-gap);
+}
+
+.listSeparated {
+  padding: var(--pl-canvas-pad);
+}
+
+/* ---------- Items ---------- */
+
+.card,
+.row {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/*
+ * The item's fill (::before) and stroke (::after) are separate layers, not `background` and
+ * `border`, so the animation CSS can run the placeholders' motion on the whole card or row.
+ */
+.card::before,
+.row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: var(--pl-fill);
+  pointer-events: none;
+}
+
+/* The ring's padding sets which sides get a stroke. */
+.card::after,
+.row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: var(--ds-border-width);
+  border-radius: inherit;
+  background-color: var(--ds-border-default);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* listing-phantom/card: card-shell on background/protected. */
+.card {
+  height: var(--pl-card-h);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--pl-radius);
+  --pl-fill: var(--ds-bg-protected);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-spacing-lg);
+  padding: var(--pl-pad);
+  flex-shrink: 0;
+  min-height: 0;
+}
+
+.cardBodyGrow {
+  flex: 1 1 0;
+}
+
+/* listing-phantom/row: surface/level-1 data-table row. */
+.row {
+  height: var(--pl-row-h);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  --pl-fill: var(--ds-surface-level-1);
+}
+
+/* DS data table: rows are divided by a bottom stroke only. */
+.row::after {
+  padding: 0 0 var(--ds-border-width);
+}
+
+.listSeparated .row {
+  border-radius: var(--pl-radius);
+}
+
+.listSeparated .row::after {
+  padding: var(--ds-border-width);
+}
+
+.rowLead {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-lg);
+  padding: 0 var(--ds-spacing-lg) 0 16px;
+  overflow: hidden;
+}
+
+.rowText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-spacing-sm);
+  overflow: hidden;
+}
+
+.rowCell {
+  flex: 1 0 0;
+  min-width: 0;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--ds-spacing-lg);
+  overflow: hidden;
+}
+
+.rowAction {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 16px 0 var(--ds-spacing-lg);
+}
+
+/* ---------- phantom-shape ---------- */
+
+.bone {
+  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
+  border-radius: var(--pl-bone-radius);
+}
+
+.thumb {
+  flex: 1 1 0;
+  min-height: 24px;
+  width: 100%;
+  border-radius: var(--pl-block-radius);
+}
+
+.block {
+  flex: 0 0 48px;
+  width: 100%;
+  border-radius: var(--pl-block-radius);
+}
+
+.cardBodyGrow .block {
+  flex: 1 1 0;
+  min-height: 24px;
+}
+
+.rowThumb {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--pl-block-radius);
+}
+
+.rowBlock {
+  width: 120px;
+  height: 32px;
+  border-radius: var(--pl-block-radius);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-md);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.headLines {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-spacing-sm);
+}
+
+.avatar {
+  width: var(--pl-avatar);
+  height: var(--pl-avatar);
+  border-radius: var(--ds-radius-full);
+}
+
+.line {
+  height: var(--pl-line);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  flex-shrink: 0;
+}
+
+.pill {
+  width: 64px;
+  height: var(--pl-line);
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--ds-radius-full);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+  padding: 0 6px;
+  border-radius: var(--ds-radius-pill);
+  background: var(--ds-bg-brand-subtle);
+  border: var(--ds-border-width) solid var(--ds-border-brand-subtle);
+  color: var(--ds-fg-brand);
+  font: var(--ds-text-body-sm);
+  font-family: var(--ds-font-mono);
+  font-size: 10px;
+  pointer-events: none;
+}
+
+/* ---------- DS listing module chrome (static) ---------- */
+
+.chrome {
+  user-select: none;
+}
+
+.chromeBar {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  padding: 16px;
+  border-bottom: var(--ds-border-width) solid var(--ds-border-default);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.chromeTitle {
+  font: var(--ds-text-heading-sm);
+  color: var(--ds-fg-primary);
+  white-space: nowrap;
+}
+
+.dsSegmented {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.dsSegment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-spacing-md);
+  height: var(--ds-control-height);
+  padding: var(--ds-spacing-sm) var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  background: var(--ds-bg-default);
+  color: var(--ds-fg-secondary);
+  font: var(--ds-text-label);
+  white-space: nowrap;
+}
+
+.dsSegment + .dsSegment {
+  margin-left: -1px;
+}
+
+.dsSegment:first-child {
+  border-radius: var(--ds-radius-default) 0 0 var(--ds-radius-default);
+}
+
+.dsSegment:last-child {
+  border-radius: 0 var(--ds-radius-default) var(--ds-radius-default) 0;
+}
+
+.dsSegmentActive {
+  background: var(--ds-bg-active);
+  color: var(--ds-fg-primary);
+}
+
+.dsIconSegment {
+  width: var(--ds-control-height);
+  padding: var(--ds-spacing-sm);
+}
+
+.dsSearch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  width: 270px;
+  min-width: 120px;
+  flex-shrink: 1;
+  height: var(--ds-control-height);
+  padding: var(--ds-spacing-sm);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  border-radius: var(--ds-radius-default);
+  background: var(--ds-bg-default);
+  color: var(--ds-fg-muted);
+  font: var(--ds-text-body);
+}
+
+.dsBrandButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-md);
+  flex-shrink: 0;
+  height: var(--ds-control-height);
+  padding: var(--ds-spacing-sm) var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-brand-subtle);
+  border-radius: var(--ds-radius-pill);
+  background: var(--ds-bg-brand-subtle);
+  color: var(--ds-fg-brand);
+  font: var(--ds-text-label);
+  white-space: nowrap;
+}
+
+.dsDropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  flex-shrink: 0;
+  height: var(--ds-control-height);
+  padding: var(--ds-spacing-sm) var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  border-radius: var(--ds-radius-default);
+  background: var(--ds-bg-default);
+  color: var(--ds-fg-secondary);
+  font: var(--ds-text-body);
+  white-space: nowrap;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  border-bottom: var(--ds-border-width) solid var(--ds-border-default);
+  font: var(--ds-text-overline);
+  text-transform: uppercase;
+  color: var(--ds-fg-muted);
+  white-space: nowrap;
+}
+
+.tableHeader > span {
+  display: block;
+  text-overflow: ellipsis;
+}
+
+/* Matches .rowAction: 12px + 24px circle + 16px. */
+.rowActionHead {
+  width: 52px;
+  padding: 0;
+}
+
+@container pl-pane (max-width: 720px) {
+  .dsSearch,
+  .dsBrandButton span {
+    display: none;
+  }
+
+  .rowLead {
+    min-width: 168px;
+  }
+}
+/* ---------- Timeline ---------- */
+
+.timeline {
+  flex-shrink: 0;
+  border-top: var(--ds-border-width) solid var(--ds-border-default);
+  background: var(--ds-surface-level-1);
+}
+
+.timelineCollapsed {
+  height: 0;
+  overflow: hidden;
+  border-top: none;
+  visibility: hidden;
+}
+
+.timelineHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ds-spacing-sm);
+  padding: var(--ds-spacing-md) 16px 4px;
+}
+
+.timelineTitle {
+  font: var(--ds-text-overline);
+  text-transform: uppercase;
+  color: var(--ds-fg-muted);
+  flex-shrink: 0;
+}
+
+.timelineMeta {
+  font: var(--ds-text-body-sm);
+  color: var(--ds-fg-muted);
+  min-width: 0;
+}
+
+.timelineScroll {
+  max-height: 112px;
+  overflow-y: auto;
+  overflow-y: overlay;
+  padding: 0;
+}
+
+.timelineRows {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 16px var(--ds-spacing-md);
+}
+
+.timelineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  height: 10px;
+}
+
+.timelineLabel {
+  width: calc(var(--tl-label-w) - 8px);
+  flex-shrink: 0;
+  font: var(--ds-text-body-sm);
+  font-family: var(--ds-font-mono);
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--ds-fg-muted);
+  white-space: nowrap;
+}
+
+.timelineTrack {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--ds-bg-default);
+}
+
+.timelineWindow,
+.timelineMotion {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 2px;
+}
+
+.timelineWindow {
+  background: var(--ds-bg-brand-subtle);
+}
+
+.timelineMotion {
+  top: 2px;
+  bottom: 2px;
+  background: var(--ds-bg-brand);
+  opacity: 0.75;
+}
+
+.timelineStart {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--ds-fg-primary);
+  opacity: 0.85;
+}
+
+.playheadLayer {
+  position: absolute;
+  top: 4px;
+  bottom: var(--ds-spacing-md);
+  left: calc(16px + var(--tl-label-w));
+  right: 16px;
+  pointer-events: none;
+}
+
+.playhead {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+
+.playheadOn {
+  display: block;
+  animation-name: pl-playhead;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-play-state: var(--pl-play-state, running);
+}
+
+.playhead::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: 0;
+  width: 1px;
+  background: var(--ds-fg-primary);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes pl-playhead {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

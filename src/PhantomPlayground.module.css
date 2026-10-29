@@ -1,0 +1,311 @@
+/* Page chrome on Llumen DS V1 tokens (ds-tokens.css). */
+
+.app {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+  background: var(--ds-bg-page);
+  color: var(--ds-fg-primary);
+  font: var(--ds-text-body);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--ds-spacing-lg);
+  padding: 16px 24px;
+  border-bottom: var(--ds-border-width) solid var(--ds-border-default);
+  background: var(--ds-surface-level-1);
+}
+
+.titleBlock {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font: var(--ds-text-heading);
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  font: var(--ds-text-body-sm);
+  color: var(--ds-fg-muted);
+}
+
+.playback {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ds-spacing-sm);
+}
+
+/* chips/normal */
+.status {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  margin-right: var(--ds-spacing-sm);
+  padding: 0 var(--ds-spacing-sm);
+  border-radius: var(--ds-radius-pill);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  background: var(--ds-bg-default);
+  font: var(--ds-text-body-sm);
+  color: var(--ds-fg-secondary);
+  white-space: nowrap;
+}
+
+.status_live {
+  color: var(--ds-fg-brand);
+  border-color: var(--ds-border-brand-subtle);
+  background: var(--ds-bg-brand-subtle);
+}
+
+.status_paused {
+  color: var(--ds-fg-primary);
+  background: var(--ds-bg-active);
+}
+
+.status_idle {
+  color: var(--ds-fg-muted);
+}
+
+/* buttons/outline */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  height: var(--ds-control-height);
+  margin: 0;
+  padding: var(--ds-spacing-sm) var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  border-radius: var(--ds-radius-pill);
+  background: var(--ds-bg-default);
+  color: var(--ds-fg-secondary);
+  font: var(--ds-text-label);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: var(--ds-fg-primary);
+  background: var(--ds-bg-active);
+}
+
+.btnOn,
+.btnOn:hover {
+  color: var(--ds-fg-brand);
+  border-color: var(--ds-border-brand-subtle);
+  background: var(--ds-bg-brand-subtle);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 16px;
+  padding: 16px 24px 24px;
+  min-height: 0;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-spacing-lg);
+  min-width: 0;
+  min-height: 0;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ds-spacing-sm);
+}
+
+/* toggle-buttons (segmented) */
+.toolGroup {
+  display: inline-flex;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  height: var(--ds-control-height);
+  margin: 0;
+  padding: var(--ds-spacing-sm) var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  border-radius: 0;
+  background: var(--ds-bg-default);
+  color: var(--ds-fg-secondary);
+  font: var(--ds-text-label);
+  cursor: pointer;
+}
+
+.tool + .tool {
+  margin-left: -1px;
+}
+
+.tool:first-child {
+  border-radius: var(--ds-radius-default) 0 0 var(--ds-radius-default);
+}
+
+.tool:last-child {
+  border-radius: 0 var(--ds-radius-default) var(--ds-radius-default) 0;
+}
+
+.tool:hover {
+  color: var(--ds-fg-primary);
+}
+
+.toolOn,
+.toolOn:hover {
+  background: var(--ds-bg-active);
+  color: var(--ds-fg-primary);
+}
+
+/* dropdown */
+.toolSelect {
+  height: var(--ds-control-height);
+  padding: 0 var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-default);
+  border-radius: var(--ds-radius-default);
+  background: var(--ds-bg-default);
+  color: var(--ds-fg-primary);
+  font: var(--ds-text-body);
+  color-scheme: dark;
+}
+
+.toolSelect option {
+  background: #1f1f1f;
+}
+
+.toolSpacer {
+  flex: 1;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-sm);
+  font: var(--ds-text-body);
+  color: var(--ds-fg-secondary);
+  cursor: pointer;
+}
+
+.check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--ds-bg-brand);
+}
+
+.btn:focus-visible,
+.tool:focus-visible,
+.toolSelect:focus-visible,
+.bannerBtn:focus-visible,
+.check input:focus-visible {
+  outline: 2px solid var(--ds-fg-brand);
+  outline-offset: 1px;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ds-spacing-lg);
+  padding: var(--ds-spacing-sm) var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-brand-subtle);
+  border-radius: var(--ds-radius-default);
+  background: var(--ds-bg-brand-subtle);
+  color: var(--ds-fg-primary);
+  font: var(--ds-text-body);
+}
+
+.bannerBtn {
+  height: 28px;
+  margin: 0 0 0 auto;
+  padding: 0 var(--ds-spacing-lg);
+  border: var(--ds-border-width) solid var(--ds-border-brand-subtle);
+  border-radius: var(--ds-radius-pill);
+  background: transparent;
+  color: var(--ds-fg-brand);
+  font: var(--ds-text-label);
+  cursor: pointer;
+}
+
+.panes {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.panesPair,
+.panesQuad {
+  display: grid;
+  gap: var(--ds-spacing-lg);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.panesQuad {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+/* Compare × Grid + List: one column per scenario pane, grid row above list row. */
+.panesMatrix {
+  display: grid;
+  gap: var(--ds-spacing-lg);
+  grid-template-columns: repeat(var(--cmp-cols, 2), minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.empty {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 48px;
+  border: var(--ds-border-width) dashed var(--ds-border-default);
+  border-radius: var(--ds-radius-default);
+  background: var(--ds-surface-level-1);
+  color: var(--ds-fg-muted);
+  font: var(--ds-text-body);
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .main {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .app {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .main {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--ds-spacing-lg);
+  }
+
+  .stage {
+    height: 75dvh;
+  }
+
+  .panesPair,
+  .panesQuad,
+  .panesMatrix {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: minmax(260px, 1fr);
+    overflow-y: auto;
+  }
+
+  .main > aside {
+    max-height: 80dvh;
+  }
+}
